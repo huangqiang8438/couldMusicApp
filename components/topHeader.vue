@@ -15,7 +15,6 @@
 		<view class="fa fa-search"></view>
 	</view>
 </template>
-
 <script>
 	export default {
 		data() {
@@ -29,10 +28,7 @@
 <style lang="scss">
 .top-header{
 	width: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 80upx;
+	height: 40px;
 	background: $app-bg-color;
 	padding: 0 20upx;
 	display: flex;
@@ -45,8 +41,8 @@
 	align-items: center;
 	justify-content: center;
 	&__nav{
-		width: 80upx;
-		height: 80upx;
+		width: 40px;
+		height: 40px;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
