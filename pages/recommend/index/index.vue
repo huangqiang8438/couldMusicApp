@@ -1,5 +1,6 @@
 <template>
-	<view>
+	<view class="rec-contanier">
+		<status-bar></status-bar>
 		<top-header></top-header>
 		<!--推荐切换卡 -->
 		<view class="rec-tabs">
@@ -57,10 +58,12 @@
 
 <script>
 	import topHeader from '../../../components/topHeader.vue'
+	import statusBar from '../../../components/statusBar.vue'
 	import {banner} from '../../../api/index.js'
 	export default {
 		components:{
-			topHeader
+			topHeader,
+			statusBar
 		},
 		data() {
 			return {
@@ -82,11 +85,12 @@
 </script>
 
 <style scoped lang="scss">
+	.rec-contanier{
+	
+	}
 .rec-tabs{
-	position: fixed;
-	top: 80upx;
 	width: 100%;
-	height: 60upx;
+	 height: 30px;
 	background: $app-bg-color;
 	color: #fff;
 	display: flex;
@@ -95,7 +99,7 @@
 	padding:20upx 20%;
 }
 .rec-body{
-	padding: 140upx 0 80upx 0;
+	padding: 0 0 70px 0;
 }
 .rec-swiper{
 	width: 100%;
