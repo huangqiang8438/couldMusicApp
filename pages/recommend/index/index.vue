@@ -131,7 +131,11 @@ let hotData=[]
 		},
 		created() {
 			this.getBanner();
-			 uni.startPullDownRefresh()
+			uni.startPullDownRefresh()
+			//#ifdef H5
+			//h5没有刷新
+				this.getRecommedData()
+			//#endif
 		},
 		onPullDownRefresh() {
 			this.getRecommedData()	
@@ -144,7 +148,10 @@ let hotData=[]
 	.rec-contanier {}
 	.rec-tabs {
 		position: fixed;
-		top:calc(var(--status-bar-height) + 40px);
+		top:calc(40px + var(--status-bar-height));
+		/*#ifdef H5*/
+			top:40px;
+		/*#endif*/
 		width: 100%;
 		height: 40px;
 		background: $app-bg-color;
@@ -158,6 +165,10 @@ let hotData=[]
 	.rec-body {
 		padding: 0 0 70px 0;
 		padding-top:calc(var(--status-bar-height) + 40px + 40px);
+		/*#ifdef H5*/
+		padding-top:40px+40px;
+		/*#endif*/
+		
 	}
 	.rec-swiper {
 		width: 100%;
