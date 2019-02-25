@@ -19,7 +19,13 @@ view{
 	box-sizing: border-box;
 	font-size: 14px;
 }
-
+image{
+	width: 100%;
+	height: 100%
+}
+.app-top{
+ padding-top:var(--status-bar-height);
+}
 
 /* 颜色变量 */
 $app-bg-color:#d23023;
