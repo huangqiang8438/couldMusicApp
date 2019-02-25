@@ -1,11 +1,17 @@
 <template>
-	<view class="status-bar">
+	<view class="status-bar" :style="{background:backgroundColor}">
 		
 	</view>
 </template>
 
 <script>
 	export default {
+		props:{
+			backgroundColor:{
+				type:[String],
+				default:"transparent"
+			}
+		},
 		data() {
 			return {
 				
@@ -21,7 +27,7 @@
 	left: 0;
 	width: 100%;
 	height: var(--status-bar-height);
-	background: $app-bg-color;
+	background: transparent;
 	z-index: 9999;
 }
 </style>
