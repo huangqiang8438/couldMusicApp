@@ -27,6 +27,9 @@
 
 <style lang="scss">
 .top-header{
+	position: fixed;
+	top:var(--status-bar-height);
+	z-index: 9999;
 	width: 100%;
 	height: 40px;
 	background: $app-bg-color;

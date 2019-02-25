@@ -3,12 +3,20 @@
         {
             "path" : "pages/recommend/index/index",
             "style" : {
-				"titleNView":false
-			}
+                "titleNView" : false,
+				"pullToRefresh":{
+					"support":true,
+					"style":"circle",
+					"offset":"140px"
+				}
+            }
+        },
+        {
+            "path" : "pages/playList/playList",
+            "style" : {}
         }
     ],
     "globalStyle" : {
-		
         "navigationBarTextStyle" : "black",
         "navigationBarTitleText" : "",
         "navigationBarBackgroundColor" : "#F8F8F8",
