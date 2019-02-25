@@ -15,7 +15,7 @@ fly.interceptors.request.use((config, promise) => {
 //添加响应拦截器，响应拦截器会在then/catch处理之前执行
 fly.interceptors.response.use(response => {
    //这里拦截响应，根据具体业务定
-	 console.log(response)
+
     return response.data
   },
   err => {

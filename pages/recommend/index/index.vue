@@ -53,55 +53,111 @@
 				<text class="rec-bar__name">排行榜</text>
 			</view>
 		</view>
+		<!-- 推荐歌单 -->
+		<song-list title="推荐歌单">
+		<song-item
+			v-for="item in hotItem"
+			:key="item.id"
+			:id="item.id"
+			:imageUrl="item.coverImgUrl"
+			:name="item.name"
+			></song-item>	
+		</song-list>
+		<!-- 最新歌曲 -->
+		<song-list title="最新音乐">
+		<song-item
+			v-for="item in recommendItem "
+			:key="item.id"
+			:id="item.id"
+			:imageUrl="item.coverImgUrl"
+			:name="item.name"
+			></song-item>	
+		</song-list>
 	</view>
 </template>
 <script>
-	import topHeader from "../../../components/topHeader.vue";
-	import statusBar from "../../../components/statusBar.vue";
+	import topHeader from "@/components/topHeader.vue";
+	import statusBar from "@/components/statusBar.vue";
+	import songList from '@/components/songList/index.vue'
+	import songItem from '@/components/songItem/index.vue'
 	import {
-		banner
-	} from "../../../api/index.js";
+		banner,
+		recommedPlayerData,
+	} from "@/api/index.js";
+let recommendData=[]
+let hotData=[]
 	export default {
 		components: {
 			topHeader,
-			statusBar
+			statusBar,
+			songList,
+			songItem
 		},
-
 		data() {
 			return {
-				bannerItem: []
+				bannerItem: [],
+				recommendItem:[],//推荐歌单
+				hotItem:[],//最新歌单
+				active:0,
 			};
 		},
 		methods: {
 			//获取轮播图
 			getBanner() {
 				banner().then(res => {		
-					console.log(res.banners)
 					this.bannerItem=res.banners
 				});
+			},
+			async getRecommedData(){
+				if(recommendData.length>0&&hotData.length>0){
+					let index=this.active===0?1:0
+					this.recommendItem=recommendData[index]
+					this.hotItem=hotData[index]
+						this.active=index
+						uni.stopPullDownRefresh()
+				}else{
+					let recommendPromise=recommedPlayerData({limit:12})//发送请求
+					let hotItemPromise= recommedPlayerData({limit:12,order:'new'})//发送请求
+					let {playlists:res1}=await recommendPromise
+					let {playlists:res2}= await hotItemPromise
+					recommendData=[res1.splice(0,6),res1]
+					hotData=[res2.splice(0,6),res2]
+					this.recommendItem=recommendData[0]
+					this.hotItem=hotData[0]
+					this.active=0
+					uni.stopPullDownRefresh()
+				}	
 			}
 		},
 		created() {
 			this.getBanner();
+			 uni.startPullDownRefresh()
+		},
+		onPullDownRefresh() {
+			this.getRecommedData()	
 		}
+		
 	};
 </script>
 
 <style scoped lang="scss">
 	.rec-contanier {}
-	
 	.rec-tabs {
+		position: fixed;
+		top:calc(var(--status-bar-height) + 40px);
 		width: 100%;
-		height: 30px;
+		height: 40px;
 		background: $app-bg-color;
 		color: #fff;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding: 20upx 20%;
+		z-index: 900;
 	}
 	.rec-body {
 		padding: 0 0 70px 0;
+		padding-top:calc(var(--status-bar-height) + 40px + 40px);
 	}
 	.rec-swiper {
 		width: 100%;
