@@ -1,5 +1,9 @@
 {
     "pages" : [
+		 {
+		    "path" : "pages/playList/playList",
+		    "style" : {}
+		},
         {
             "path" : "pages/recommend/index/index",
             "style" : {
@@ -10,16 +14,10 @@
 					"offset":"140px"
 				}
             }
-        },
-        {
-            "path" : "pages/playList/playList",
-            "style" : {}
         }
+       
     ],
     "globalStyle" : {
-        "navigationBarTextStyle" : "black",
-        "navigationBarTitleText" : "",
-        "navigationBarBackgroundColor" : "#F8F8F8",
-        "backgroundColor" : "#F8F8F8"
+		"titleNView":false
     }
 }
