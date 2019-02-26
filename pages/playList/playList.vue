@@ -12,25 +12,46 @@
 			<view class="fa fa-ellipsis-v"></view>
 		</view>
 			<!-- 歌单简介 -->
-			<view class="play-body transition" :style="{backgroundColor:playBgColor}" >
-				<view class="play-body__cover">
-					<!-- #ifdef APP-PLUS -->
-					<canvas class="play-cover__img" canvas-id="cover"></canvas>
-					<!-- #endif -->
-					<!-- #ifdef H5-->
-					<image class="play-cover__img"  :src="playData.coverImgUrl"></image>
-					<!-- #endif -->				
-				</view>
-				<view class="play-body__desc">
-					<view class="desc__title">{{playData.name}}</view>
-					<view class="desc__creator">
-						<image class="desc__avatar" :src="playData.creator.avatarUrl" :lazy-load="true"></image>
-						<view class="desc__nickname">
-							{{playData.creator.nickname}}
-							<text class="fa fa-angle-right"></text>
+			<view class="transition" :style="{backgroundColor:playBgColor}" >
+				<view class="play-body" >
+					<view class="play-body__cover">
+						<!-- #ifdef APP-PLUS -->
+						<canvas class="play-cover__img" canvas-id="cover"></canvas>
+						<!-- #endif -->
+						<!-- #ifdef H5-->
+						<image class="play-cover__img"  :src="playData.coverImgUrl"></image>
+						<!-- #endif -->				
+					</view>
+					<view class="play-body__desc">
+						<view class="desc__title">{{playData.name}}</view>
+						<view class="desc__creator">
+							<image class="desc__avatar" :src="playData.creator.avatarUrl" :lazy-load="true"></image>
+							<view class="desc__nickname">
+								{{playData.creator.nickname}}
+								<text class="fa fa-angle-right"></text>
+							</view>
 						</view>
 					</view>
-				</view>
+				 </view>
+				 <view class="play-toolbar">
+						<view class="play-toolbar__item">
+							<view class="fa fa-commenting-o"></view>
+							<view class="toolbar__title">60</view>
+						</view>
+						<view class="play-toolbar__item">
+							<view class="fa fa-share-alt"></view>
+							<view class="toolbar__title">60</view>
+						</view>		
+						<view class="play-toolbar__item">
+							<view class="fa fa-cloud-download"></view>
+							<view class="toolbar__title">下载</view>
+						</view>		
+						<view class="play-toolbar__item">
+							<view class="fa fa-check-square-o"></view>
+							<view class="toolbar__title">多选</view>
+						</view>		
+						
+				 </view>
 			</view>		
 			<toast ref="toast"></toast>
 	</view>
@@ -125,6 +146,7 @@
 			height: 120px;
 			border-radius: 4px;
 			overflow: hidden;
+			background: #faf5f6;
 		}
 		&__desc {
 			flex: 1;
@@ -160,6 +182,17 @@
 
 	.desc__nickname {
 		font-size: 12px;
+		display: flex;
+		align-items: center;
+		.fa{
+			margin-left: 5px;
+		}
 	}
-	
+	.play-toolbar{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding:0 20px;
+		color: #fff;
+	}
 </style>
