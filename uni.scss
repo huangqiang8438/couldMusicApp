@@ -12,6 +12,90 @@
  * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
  */
 
+/**
+ * Entry of all component's style
+ */
+/* base */
+/**
+ * Entry of basic styles
+ */
+/**
+ * 基本样式入口
+ */
+html {
+  -webkit-tap-highlight-color: transparent;
+     font-family: Helvetica, sans-serif;
+}
+body {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+a:focus,
+input:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+}
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+input,
+button,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+.van-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.van-clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+[class*='app-border'] {
+  position: relative;
+}
+[class*='app-border']::after {
+  content: ' ';
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  border: 0 solid #e0e0e0;
+}
+.app-border--top::after {
+  border-top-width: 1px;
+}
+.app-border--left::after {
+  border-left-width: 1px;
+}
+.app-border--right::after {
+  border-right-width: 1px;
+}
+.app-border--bottom::after {
+  border-bottom-width: 1px;
+}
+.app-border--top-bottom::after {
+  border-width: 1px 0;
+}
+.app-border--surround::after {
+  border-width: 1px;
+}
+
+
 .fa{
 	font-size: 18px;
 }
@@ -27,9 +111,9 @@ image{
  padding-top:var(--status-bar-height);
 }
 .transition{
-	transition: all ease-in-out 800ms;
+	transition: all ease-in-out 500ms;
 }
-
+	
 /* 颜色变量 */
 $app-bg-color:#d23023;
 $app-bg-gary:#888;

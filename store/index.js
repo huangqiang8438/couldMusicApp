@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {
-		playBgColor:'#d23023',//歌单背景色
+		playBgColor:'rgb(210,48,35)',//歌单背景色
 
 	},
 	mutations: {
