@@ -135,10 +135,10 @@
 		color: #fff;
 		display: flex;
 		align-items: center;
-		padding: 0px 15px 20px 15px;
-		padding-top:calc(var(--status-bar-height) + 60px + 20px);
+		padding: 0px 15px 10px 15px;
+		padding-top:calc(var(--status-bar-height) + 60px + 10px);
 		/*#ifdef H5*/
-		padding-top:calc(60px + 20px);
+		padding-top:calc(60px + 10px);
 		/*#endif*/	
 		
 		&__cover {
@@ -186,13 +186,26 @@
 		align-items: center;
 		.fa{
 			margin-left: 5px;
+			margin-bottom: 3px;
 		}
 	}
 	.play-toolbar{
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding:0 20px;
+		padding:0 10%;
 		color: #fff;
+		&__item{
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			padding: 5px 10px;
+			.fa{
+				font-size: 20px;
+			}
+		}
+	}
+	.toolbar__title{
+		font-size: 12px;
 	}
 </style>
