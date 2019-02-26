@@ -1,21 +1,20 @@
 {
     "pages" : [
-		 {
-		    "path" : "pages/playList/playList",
-		    "style" : {}
-		},
-        {
-            "path" : "pages/recommend/index/index",
-            "style" : {
-                "titleNView" : false,
+		{
+		    "path" : "pages/recommend/index/index",
+		    "style" : {
+		        "titleNView" : false,
 				"pullToRefresh":{
 					"support":true,
 					"style":"circle",
 					"offset":"140px"
 				}
-            }
-        }
-       
+		    }
+		},
+		 {
+		    "path" : "pages/playList/playList",
+		    "style" : {}
+		}
     ],
     "globalStyle" : {
 		"titleNView":false
