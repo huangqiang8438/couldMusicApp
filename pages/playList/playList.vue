@@ -3,7 +3,7 @@
 		<statusBar></statusBar>
 		<!-- 固定头 -->
 		<view class="play-bar">
-			<view class="fa fa-arrow-left"></view>
+			<view class="fa fa-arrow-left" @click="back"></view>
 			<view class="play-bar__title">
 				<view class="play-bar__title--name">歌单</view>
 				<view class="play-bar__title--desc">编辑推荐:奥斯卡获奖提名</view>
@@ -12,9 +12,14 @@
 			<view class="fa fa-ellipsis-v"></view>
 		</view>
 			<!-- 歌单简介 -->
-			<view class="play-body" :style="{background:bgColor}">
+			<view class="play-body transition" :style="{backgroundColor:playBgColor}" >
 				<view class="play-body__cover">
+					<!-- #ifdef APP-PLUS -->
 					<canvas class="play-cover__img" canvas-id="cover"></canvas>
+					<!-- #endif -->
+					<!-- #ifdef H5-->
+					<image class="play-cover__img"  :src="playData.coverImgUrl"></image>
+					<!-- #endif -->				
 				</view>
 				<view class="play-body__desc">
 					<view class="desc__title">{{playData.name}}</view>
@@ -26,12 +31,14 @@
 						</view>
 					</view>
 				</view>
-			</view>
+			</view>		
+			<toast ref="toast"></toast>
 	</view>
 </template>
 
 <script>
-	import analyze from 'rgbaster'
+	import getImageColor from "@/utils/bgColor.js"
+	import { mapState } from 'vuex'
 	import {
 		playerDetail,
 		songDetails
@@ -39,81 +46,36 @@
 	export default {
 		data() {
 			return {
-				id: 2679159158,
+				load:false,			
 				playData: {},
-				songs: [],
-				bgColor: ''
+				songs: [],				
 			};
 		},
 		computed: {
-			
+			...mapState([
+				'playBgColor'
+			])
 		},
 		onLoad(opt) {
-			this.getPlayDetail(this.id)
+			this.getPlayDetail(opt.id)
 		},
-		methods: {
-			changeBackGround(url) {
-				return new Promise(resolve => {
-					let context = uni.createCanvasContext('cover', this)
-					context.drawImage(url, 0, 0, 100, 100)
-					let self = this
-					context.draw(false, () => {
-						uni.canvasGetImageData({
-							canvasId: 'cover',
-							x: 0,
-							y: 0,
-							width: 100,
-							height: 100,
-							success: (res) => {
-								let color=this.getCounts(res.data)		
-												console.log(color.length)
-								resolve(color)
-							}
-						})
-					})
-				})
-			},
-			getCounts(data, ignore) {
-				var countMap = {};
-				for (var i = 0; i < data.length; i += 4) {
-					var alpha = data[i + 3];
-					if (alpha === 0) {
-						continue;
-					}
-					var rgbComponents = Array.from(data.subarray(i, i + 3));
-					if (rgbComponents.indexOf(undefined) !== -1) {
-						continue;
-					}
-					var color = alpha && alpha !== 255 ? ("rgba(" + (rgbComponents.concat([alpha]).join(',')) + ")") : ("rgb(" + (
-						rgbComponents.join(',')) + ")");
-					if (countMap[color]) {
-						countMap[color].count++;
-					} else {
-						countMap[color] = {
-							color: color,
-							count: 1
-						};
-					}
-				}
-				var counts = Object.values(countMap);
-				return counts.sort(function(a, b) {
-					return b.count - a.count;
+		methods: {	
+			back(){
+				uni.navigateBack({
+					delta: 1
 				});
 			},
-			async getPlayDetail(id) {
+	  async getPlayDetail(id) {//获取歌单详情
 				try {
-					let {
-						playlist,
-						privileges
-					} = await playerDetail({
-						id: id
-					})
+					let {playlist,privileges} = await playerDetail({id: id})
 					this.playData = playlist
-					this.changeBackGround(playlist.coverImgUrl).then(color=>{
-						this.bgColor= `linear-gradient(to bottom right, ${color[3665].color} , ${color[0].color})`
-					})
+					this.load=true
+					//根据图片修改主题色
+					getImageColor(playlist.coverImgUrl,'cover',{width:120,height:120}).then(color=>{					
+							this.$store.dispatch('setPlayColor',color[color.length-5].color)		
+					})			
 				} catch (e) {
-					console.log(e)
+					this.$toast(e)
 				}
 			},
 		}
@@ -130,19 +92,15 @@
 		align-items: center;
 		background:transparent;
 		height: 60px;
-
 		&__title {
 			flex: 1;
-
 			&--name {
 				font-size: 18px;
 			}
-
 			&--desc {
 				font-size: 10px;
 			}
 		}
-
 		.fa {
 			width: 60px;
 			height: 60px;
@@ -152,28 +110,34 @@
 			font-size: 20px;
 		}
 	}
-
-
 	.play-body {
-		background: $app-bg-color;
 		color: #fff;
 		display: flex;
 		align-items: center;
 		padding: 0px 15px 20px 15px;
 		padding-top:calc(var(--status-bar-height) + 60px + 20px);
+		/*#ifdef H5*/
+		padding-top:calc(60px + 20px);
+		/*#endif*/	
+		
 		&__cover {
-			width: 240upx;
-			height: 240upx;
+			width: 120px;
+			height: 120px;
 			border-radius: 4px;
 			overflow: hidden;
 		}
-
 		&__desc {
 			flex: 1;
-			height: 240upx;
-			padding-left: 30upx;
+			height:120px;
+			padding-left:15px;
 			overflow: hidden;
 		}
+	}
+	.play-cover__img{
+		width: 120px;
+		height: 120px;
+		border-radius: 4px;
+		overflow: hidden;
 	}
 
 	.desc__creator {
@@ -197,4 +161,5 @@
 	.desc__nickname {
 		font-size: 12px;
 	}
+	
 </style>

@@ -19,7 +19,9 @@ fly.interceptors.response.use(response => {
     return response.data
   },
   err => {
-	console.log(JSON.stringify(plus))
+	uni.showToast({
+		title:'服务加载异常'
+	})
     return Promise.resolve(err)
   }
 )

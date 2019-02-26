@@ -28,12 +28,18 @@
 <style lang="scss">
 .top-header{
 	position: fixed;
-	top:var(--status-bar-height);
+	top: 0;
 	z-index: 9999;
 	width: 100%;
 	height: 40px;
 	background: $app-bg-color;
-	padding: 0 20upx;
+	padding: 0  20px 20px 20px;
+	/*#ifdef APP-PLUS*/
+	padding-top:calc(var(--status-bar-height) + 20px);
+	/*#endif*/
+	/*#ifdef H5*/
+	padding-top:20px;
+	/*#endif*/
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -43,6 +49,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	.fa{
+		font-size: 24px;
+	}
 	&__nav{
 		width: 40px;
 		height: 40px;
@@ -51,7 +60,7 @@
 		align-items: center;
 		justify-content: center;
 		color: rgba($color: #fff, $alpha: 0.7);
-		margin: 0 10upx;
+		margin: 0 10px;
 		&:active{
 			background: rgba($color: #000000, $alpha: 0.25);
 		}

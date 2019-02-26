@@ -26,6 +26,9 @@ image{
 .app-top{
  padding-top:var(--status-bar-height);
 }
+.transition{
+	transition: all ease-in-out 800ms;
+}
 
 /* 颜色变量 */
 $app-bg-color:#d23023;

@@ -1,6 +1,6 @@
 <template>
 	<view class="rec-contanier">
-		<status-bar></status-bar>
+		
 		<top-header></top-header>
 		<!--推荐切换卡 -->
 		<view class="rec-tabs">
@@ -24,7 +24,6 @@
 					</swiper-item>
 				</swiper>
 			</view>
-			
 		</view>
 		<!-- 每日推荐导航-->
 		<view class="rec-bars">
@@ -77,7 +76,6 @@
 </template>
 <script>
 	import topHeader from "@/components/topHeader.vue";
-	import statusBar from "@/components/statusBar.vue";
 	import songList from '@/components/songList/index.vue'
 	import songItem from '@/components/songItem/index.vue'
 	import {
@@ -89,7 +87,6 @@ let hotData=[]
 	export default {
 		components: {
 			topHeader,
-			statusBar,
 			songList,
 			songItem
 		},
@@ -116,8 +113,8 @@ let hotData=[]
 						this.active=index
 						uni.stopPullDownRefresh()
 				}else{
-					let recommendPromise=recommedPlayerData({limit:12})//发送请求
-					let hotItemPromise= recommedPlayerData({limit:12,order:'new'})//发送请求
+					let recommendPromise=recommedPlayerData({limit:12})//推荐歌单
+					let hotItemPromise= recommedPlayerData({limit:12,order:'new'})//热门歌单
 					let {playlists:res1}=await recommendPromise
 					let {playlists:res2}= await hotItemPromise
 					recommendData=[res1.splice(0,6),res1]
@@ -133,7 +130,6 @@ let hotData=[]
 			this.getBanner();
 			uni.startPullDownRefresh()
 			//#ifdef H5
-			//h5没有刷新
 				this.getRecommedData()
 			//#endif
 		},

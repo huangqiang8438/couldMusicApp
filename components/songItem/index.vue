@@ -2,15 +2,20 @@
 	<view class="play-list">
 		<navigator :url="url">
 		<view class="play-list__warp">
-			<image :src="imageUrl" mode="aspectFit" class="play-list__cover" lazy-load="true"></image>
+			<image :src="imageUrl" mode="aspectFit" class="play-list__cover" lazy-load="true" ></image>
+			
 		</view>
 		<view class="play-list__name">{{name}}</view>
 		</navigator>
 	</view>
 </template>
 <script>
+	import lazyImage from '../lazyImage/index.vue'
 	export default{
 		name:'songItem',
+		components:{
+			lazyImage
+		},
 		props:{
 			imageUrl:{
 				type:[String],
@@ -32,13 +37,18 @@
 		},
 		data(){
 			return {
-				
+				load:false
 			}
+		},
+		methods:{
+			
 		}
+
 	}
 </script>
 
 <style scoped lang="scss">
+	
 	.play-list{
 		width: 32.5%;
 		&__warp{
