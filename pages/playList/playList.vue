@@ -59,9 +59,7 @@
 <script>
 	import songMenu from '@/components/songMenu.vue'
 	import getImageColor from "@/utils/bgColor.js"
-	import {
-		mapState
-	} from 'vuex'
+	import {mapState} from 'vuex'
 	import {
 		playerDetail,
 		songDetails
@@ -98,15 +96,26 @@
 					commentCount: this.formatString(commentCount),
 				}
 			},
-			...mapState([
+			...mapState('playList',[
 				'playBgColor'
-			])
+			]	
+			)
 		},
 		onLoad(opt) {
-			this.getPlayDetail(opt.id)
+			this.$store.dispatch('getPlayData',opt.id).then(playData=>{//读取缓存		  
+				if(playData===undefined){
+					this.getPlayDetail(opt.id)
+				}else{
+					this.$store.dispatch('setPlayColor',{id:opt.id,color:playData.color})
+					.then(res=>{
+								this.setPlayInfo(playData)
+					})
+				}
+			})
 		},
-		onPageScroll(e) {
+		onPageScroll(e) {	
 			if (!this.rgbString) {
+				
 				let str = this.playBgColor.replace('rgb(', '')
 				this.rgbString = str.replace(')', '')
 			}
@@ -122,8 +131,6 @@
 					this.title = this.playData.name
 				this.headerBgColor = `rgba(${this.rgbString},1)`
 			})
-			
-			
 			} else {
 				this.$nextTick(()=>{
 					this.title = "歌单"
@@ -134,8 +141,8 @@
 		},
 		methods: {
 			formatString(num) {
-				if (num >= 10000) {
-					let str = num / 10000
+				if (num >= 100000) {
+					let str = parseFloat(num/10000).toFixed(1)
 					return str + '万'
 				} else {
 					return num
@@ -148,29 +155,30 @@
 			},
 			async getPlayDetail(id) { //获取歌单详情
 				try {
-					let {
-						playlist,
-						privileges
-					} = await playerDetail({
-						id: id
-					})
-					const {
-						tracks
-					} = playlist
-					this.playData = playlist
-					this.songItems = tracks
-					this.load = true
+					let {playlist} = await playerDetail({id: id})
+					 await this.$store.dispatch('setPlayData',playlist)
+						getImageColor(playlist.coverImgUrl, 'cover', {
+							width: 120,
+							height: 120
+						}).then(color => {				
+							this.$store.dispatch('setPlayColor', {
+								color:color[color.length - 5].color,
+								id:id
+							})
+						})
+					
+					
+					this.setPlayInfo(playlist)
 					//根据图片修改主题色
-					getImageColor(playlist.coverImgUrl, 'cover', {
-						width: 120,
-						height: 120
-					}).then(color => {
-						this.$store.dispatch('setPlayColor', color[color.length - 5].color)
-					})
 
 				} catch (e) {
-					this.$toast(e)
+					console.log(e)
 				}
+			},
+			setPlayInfo(playData){
+				const {tracks} = playData
+				this.playData = playData
+				this.songItems = tracks
 			}
 		}
 	}

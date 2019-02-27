@@ -55,17 +55,17 @@
 		<!-- 推荐歌单 -->
 		<song-list title="推荐歌单">
 		<song-item
-			v-for="item in hotItem"
+			v-for="item in recommendItem"
 			:key="item.id"
 			:id="item.id"
-			:imageUrl="item.coverImgUrl"
+			:imageUrl="item.picUrl"
 			:name="item.name"
 			></song-item>	
 		</song-list>
 		<!-- 最新歌曲 -->
 		<song-list title="最新音乐">
 		<song-item
-			v-for="item in recommendItem "
+			v-for="item in  hotItem"
 			:key="item.id"
 			:id="item.id"
 			:imageUrl="item.coverImgUrl"
@@ -81,6 +81,7 @@
 	import {
 		banner,
 		recommedPlayerData,
+		newPlayerData
 	} from "@/api/index.js";
 let recommendData=[]
 let hotData=[]
@@ -113,11 +114,11 @@ let hotData=[]
 						this.active=index
 						uni.stopPullDownRefresh()
 				}else{
-					let recommendPromise=recommedPlayerData({limit:12})//推荐歌单
-					let hotItemPromise= recommedPlayerData({limit:12,order:'new'})//热门歌单
-					let {playlists:res1}=await recommendPromise
+					let recommendPromise=recommedPlayerData()//推荐歌单
+					let hotItemPromise= newPlayerData({limit:12})//热门歌单
+					let {result:res1}=await recommendPromise
 					let {playlists:res2}= await hotItemPromise
-					recommendData=[res1.splice(0,6),res1]
+					recommendData=[res1.splice(0,6),res1.splice(0,6)]
 					hotData=[res2.splice(0,6),res2]
 					this.recommendItem=recommendData[0]
 					this.hotItem=hotData[0]

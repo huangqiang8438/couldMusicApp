@@ -1,6 +1,6 @@
 
 const config={
-	baseUrl:'http://192.168.1.3:3000'
+	baseUrl:'http://118.24.42.33:3000'
 }
 
 export default config

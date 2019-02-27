@@ -1,11 +1,11 @@
 
 export default async function(url, canvasId, opts) {
 	//#ifdef H5
-	console.time('获取图片像素')
+
 	const result = Promise.resolve(getImageData(url, opts).then(data => {
 		return getCounts(data);
 	}))
-	console.timeEnd('获取图片像素')
+	
 	return result
 	//#endif
 	
@@ -49,6 +49,7 @@ function changeBackGround(url, canvasId, opts) {
 	} = opts
 	
 	return new Promise(resolve => {
+			console.time('画布绘制耗时')
 		let context = uni.createCanvasContext(canvasId, this)
 		context.drawImage(url, 0, 0, width, height)
 		context.draw(false, () => {
@@ -59,9 +60,8 @@ function changeBackGround(url, canvasId, opts) {
 				width: width,
 				height: height,
 				success: (res) => {
-				
 					resolve(getCounts(res.data))
-					
+						console.timeEnd('画布绘制耗时')
 				}
 			})
 		})

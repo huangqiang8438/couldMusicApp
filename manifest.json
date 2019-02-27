@@ -61,7 +61,7 @@
     },
     "h5" : {
         "devServer" : {
-            "https" : true
+            "https" : false
         }
     }
 }
